@@ -12,12 +12,14 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import MailIcon from "@mui/icons-material/Mail";
+
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-// import CartList from "../cart-list/CartList";
+import CartList from "../CarLlist/CartList";
 import { logDOM } from "@testing-library/react";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -49,7 +51,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
+  
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -62,9 +64,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [cartItems, setCartItems] = React.useState([])
+  const [cartItems, setCartItems] = React.useState([]);
+const count = useSelector((state)=> state.counter);
 
-  console.log(cartItems?.length, 'cartItemscartItems');
+
+console.log(count, 'count');
+
+
   
 
   const [open, setOpen] = React.useState(false);
@@ -111,7 +117,9 @@ export default function Header() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+     <Link to="/sign-in">My account</Link>
+      </MenuItem>
     </Menu>
   );
 
@@ -134,8 +142,8 @@ export default function Header() {
     >
       <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <ShoppingCartIcon onClick={toggleDrawer(true)} />
+          <Badge badgeContent={count?.value} color="error">
+            <ShoppingCartIcon />
           </Badge>
         </IconButton>
         <p>Messages</p>
@@ -167,14 +175,9 @@ export default function Header() {
     </Menu>
   );
 
-  React.useEffect(() => {
-    const cartItemsArr = localStorage.getItem("cartList");
-    const parseCartItemsArr = JSON.parse(cartItemsArr);
-
-    setCartItems(parseCartItemsArr);
-  }, []);
 
   return (
+    
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
@@ -195,15 +198,6 @@ export default function Header() {
           >
             MUI
           </Typography>
-          {/* <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search> */}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
@@ -211,7 +205,7 @@ export default function Header() {
               aria-label="show 4 new mails"
               color="inherit"
             >
-              <Badge badgeContent={cartItems?.length} color="error">
+              <Badge badgeContent={count?.value} color="error">
                 <ShoppingCartIcon onClick={toggleDrawer(true)} />
               </Badge>
             </IconButton>
@@ -253,7 +247,7 @@ export default function Header() {
       {renderMobileMenu}
       {renderMenu}
 
-      {/* <CartList open={open} toggleDrawer={toggleDrawer} /> */}
+      <CartList open={open} toggleDrawer={toggleDrawer} />
     </Box>
   );
 }

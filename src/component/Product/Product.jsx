@@ -21,6 +21,8 @@ import "./product.css";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../slices/AddCarts/addCartSlice";
 
 const Products = () => {
   const [allProducts, setAllProducts] = useState([]);
@@ -31,6 +33,7 @@ const Products = () => {
   const navigate = useNavigate();
   const [categoryOptions, setcategoryOptions] = useState([]);
   const [categoryFilter, setCategoryFilter] = useState({});
+  const dispatch = useDispatch()
   console.log(istLoading, "istLoading");
 
   const cartHandler = (product) => {
@@ -151,7 +154,7 @@ const Products = () => {
             return (
               <Grid item xs={12} md={3} mb={3} key={index}>
                 <Card
-                  sx={{ padding: "20px", cursor: "pointer", width: "280px" }}
+                  sx={{ padding: "20px", cursor: "pointer", width: "275px" }}
                 >
                   <Box>
                     <Box className="text-center">
@@ -184,7 +187,7 @@ const Products = () => {
                       </Tooltip>
                       <Tooltip title="Add to Cart">
                         <AddShoppingCartIcon
-                          onClick={() => cartHandler(product)}
+                          onClick={() =>dispatch(addToCart())}
                         />
                       </Tooltip>
                     </Box>
