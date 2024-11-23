@@ -7,6 +7,7 @@ import ProductDetails from './component/productdetail/ProductDetails';
 import Layout from './component/layout/layout';
 import { Provider } from 'react-redux';
 import { store } from './Store';
+import 'react-toastify/dist/ReactToastify.css';
 
 const router = createBrowserRouter([
   {
